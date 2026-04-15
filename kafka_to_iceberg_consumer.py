@@ -191,10 +191,10 @@ def get_kafka_options():
 
 def create_spark_session():
     """Create SparkSession with Iceberg + MinIO configuration."""
-    minio_endpoint = os.environ.get("MINIO_ENDPOINT", "http://minio.lakehouse-data.svc.cluster.local:9000")
-    minio_access_key = os.environ.get("MINIO_ACCESS_KEY", "admin")
-    minio_secret_key = os.environ.get("MINIO_SECRET_KEY", "")
-    warehouse_path = os.environ.get("ICEBERG_WAREHOUSE", "s3a://lakehouse/warehouse")
+    minio_endpoint = os.environ.get("MINIO_ENDPOINT", "http://192.168.100.219:9000")
+    minio_access_key = os.environ.get("MINIO_ACCESS_KEY", "minioadmin")
+    minio_secret_key = os.environ.get("MINIO_SECRET_KEY", "minioadmin")
+    warehouse_path = os.environ.get("ICEBERG_WAREHOUSE", "s3a://lakehouse-warehouse/warehouse")
 
     spark = SparkSession.builder \
         .appName("KafkaToIcebergConsumer") \
