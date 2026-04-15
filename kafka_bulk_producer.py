@@ -197,7 +197,7 @@ def main():
         from kafka import KafkaProducer
 
         producer = KafkaProducer(
-            bootstrap_servers="192.168.101.157:31547",
+            bootstrap_servers="my-cluster-kafka-bootstrap:9092",
 
             # 👇 ADD THIS BLOCK
             security_protocol="SASL_PLAINTEXT",  # or SASL_SSL if TLS enabled
