@@ -217,6 +217,7 @@ def create_spark_session():
     .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint) \
     .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
     .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
+    .config("spark.sql.catalog.lakehouse.s3.region", "us-east-1") \
     .config("spark.hadoop.fs.s3a.path.style.access", "true") \
     .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
     .config("spark.sql.defaultCatalog", "lakehouse") \
