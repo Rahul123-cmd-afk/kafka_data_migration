@@ -202,27 +202,27 @@ def create_spark_session():
     # nessie_ref = os.environ.get("NESSIE_REF", "main")
 
     spark = SparkSession.builder \
-        .appName("KafkaToIcebergConsumer") \
-        .config("spark.sql.extensions",
-                "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
-                "org.projectnessie.spark.extensions.NessieSparkSessionExtensions") \
-        .config("spark.sql.catalog.lakehouse",
-                "org.apache.iceberg.spark.SparkCatalog") \
-        .config("spark.sql.catalog.lakehouse.warehouse", warehouse_path) \
-        .config("spark.sql.catalog.lakehouse.io-impl",
-                "org.apache.iceberg.aws.s3.S3FileIO") \
-        .config("spark.sql.catalog.lakehouse.s3.endpoint", minio_endpoint) \
-        .config("spark.sql.catalog.lakehouse.s3.path-style-access", "true") \
-        .config("spark.sql.catalog.lakehouse.s3.access-key-id", minio_access_key) \
-        .config("spark.sql.catalog.lakehouse.s3.secret-access-key", minio_secret_key) \
-        .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint) \
-        .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
-        .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
-        .config("spark.hadoop.fs.s3a.path.style.access", "true") \
-        .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
-        .config("spark.sql.defaultCatalog", "lakehouse") \
-        .getOrCreate()
-
+    .appName("KafkaToIcebergConsumer") \
+    .config("spark.sql.extensions",
+            "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions") \
+    .config("spark.sql.catalog.lakehouse",
+            "org.apache.iceberg.spark.SparkCatalog") \
+    .config("spark.sql.catalog.lakehouse.type", "hadoop") \
+    .config("spark.sql.catalog.lakehouse.warehouse", warehouse_path) \
+    .config("spark.sql.catalog.lakehouse.io-impl",
+            "org.apache.iceberg.aws.s3.S3FileIO") \
+    .config("spark.sql.catalog.lakehouse.s3.endpoint", minio_endpoint) \
+    .config("spark.sql.catalog.lakehouse.s3.path-style-access", "true") \
+    .config("spark.sql.catalog.lakehouse.s3.access-key-id", minio_access_key) \
+    .config("spark.sql.catalog.lakehouse.s3.secret-access-key", minio_secret_key) \
+    .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint) \
+    .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
+    .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
+    .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+    .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
+    .config("spark.sql.defaultCatalog", "lakehouse") \
+    .getOrCreate()
+    
     # Create schemas if they don't exist
     spark.sql("CREATE NAMESPACE IF NOT EXISTS lakehouse.bronze")
     spark.sql("CREATE NAMESPACE IF NOT EXISTS lakehouse.silver")
