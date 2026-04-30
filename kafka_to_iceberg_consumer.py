@@ -40,12 +40,22 @@ TOPIC_CONFIG = {
 
 # ============================================================
 # KAFKA OPTIONS
-# ============================================================
+# ===========================================================
+
+#----------------------
 def get_kafka_options():
-    bootstrap = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "my-cluster-kafka-bootstrap:9092")
-    protocol = os.environ.get("KAFKA_SECURITY_PROTOCOL", "SASL_PLAINTEXT")
+    bootstrap = os.environ.get(
+        "KAFKA_BOOTSTRAP_SERVERS",
+        "my-cluster-kafka-bootstrap:9093"   # 🔥 FIX
+    )
+
+    protocol = os.environ.get(
+        "KAFKA_SECURITY_PROTOCOL",
+        "SASL_SSL"   # 🔥 FIX
+    )
+
     mechanism = os.environ.get("KAFKA_SASL_MECHANISM", "SCRAM-SHA-512")
-    username = os.environ.get("KAFKA_USERNAME", "app-user")
+    username = os.environ.get("KAFKA_USERNAME", "my-user")
     password = os.environ.get("KAFKA_PASSWORD", "")
 
     jaas_config = (
@@ -58,10 +68,15 @@ def get_kafka_options():
         "kafka.security.protocol": protocol,
         "kafka.sasl.mechanism": mechanism,
         "kafka.sasl.jaas.config": jaas_config,
+
+        # 🔥🔥🔥 MOST IMPORTANT FIX
+        "kafka.ssl.truststore.location": "/etc/kafka/ca.p12",
+        "kafka.ssl.truststore.password": "bfY9evmCpBIu",
+        "kafka.ssl.truststore.type": "PKCS12",
+
         "startingOffsets": "earliest",
         "failOnDataLoss": "false",
     }
-
 
 # ============================================================
 # SPARK SESSION
