@@ -1,7 +1,7 @@
 """
 Kafka Bulk Producer — Generate banking transactions
 Usage inside a Kafka-reachable pod:
-  python producer.py --bootstrap-server <host>:9092 --count 10000
+  python producer.py --bootstrap-server <host>:9093 --count 10000
 """
 import json
 import random
@@ -162,7 +162,7 @@ def main():
 
     # ✅ FIX 1: Resolve config from args → env → default
     bootstrap = args.bootstrap_server or os.environ.get(
-        "KAFKA_BOOTSTRAP_SERVERS", "my-cluster-kafka-bootstrap:9092")
+        "KAFKA_BOOTSTRAP_SERVERS", "my-cluster-kafka-bootstrap:9093  ")
     username = args.username or os.environ.get("KAFKA_USERNAME", "app-user")
     password = args.password or os.environ.get(
         "KAFKA_PASSWORD", "bwDqbYGrgC2AKOMuthoUu7Ckkj8tNjtB")
@@ -182,7 +182,7 @@ def main():
         if not check_dns(bootstrap):
             print("\nAborting — DNS resolution failed.")
             print("Fix: Run this script INSIDE a Kafka-reachable pod")
-            print("  oc exec -it kafka-test-client -n lakehouse-ingest -- python ...")
+            print("  oc exec -it kafka-test-client -n simplelogic -- python ...")
             return 2
 
     # ---- Generate data ----
@@ -225,8 +225,9 @@ def main():
     try:
         producer = KafkaProducer(
             bootstrap_servers=bootstrap,             # ✅ from args/env, not hardcoded
-            security_protocol="SASL_PLAINTEXT",
+            security_protocol="SASL_SSL",
             sasl_mechanism="SCRAM-SHA-512",
+            ssl_cafile="/etc/kafka/ca.crt",
             sasl_plain_username=username,            # ✅ from args/env
             sasl_plain_password=password,            # ✅ from args/env
             value_serializer=lambda v: json.dumps(v).encode("utf-8"),
