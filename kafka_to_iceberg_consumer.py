@@ -56,7 +56,7 @@ def get_kafka_options():
 
     mechanism = os.environ.get("KAFKA_SASL_MECHANISM", "SCRAM-SHA-512")
     username = os.environ.get("KAFKA_USERNAME", "my-user")
-    password = os.environ.get("KAFKA_PASSWORD", "")
+    password = os.environ.get("KAFKA_PASSWORD", "vywOr5qAcKsjK5Nf9Hsa4Oxpjt1NBiTv")
 
     jaas_config = (
         f'org.apache.kafka.common.security.scram.ScramLoginModule required '
